@@ -3,10 +3,14 @@ body {
     width: 70%;
     max-width: 950px;
 }
+html{
+  background-color: #00aaaa;
+  font-family: arial;
+}
 
 h1 {
     font-size: 3em;
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+    //font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 
 p, button, input {
