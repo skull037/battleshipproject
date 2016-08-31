@@ -64,8 +64,19 @@ function fireTorpedo() {
 		var Beta;
 		var Delta;
 		var Gamma;
-		
+
 	  Alpha = ($("#CoordInput").val());
 		console.log(Alpha);
+		Beta = Alpha.substring(1, 2);
+		Delta = Alpha.substring(0,1);
+		console.log(Beta);
+	  console.log(Delta);
+
+		if( 1 == 2){
+				//change color to red & increase hit count
+		}
+		else{
+				//change color to gray
+		}
 
 }
