@@ -5,6 +5,7 @@ var squareSize = 50;
 var letterArray = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
 // gets the container element
 var gameBoardContainer = document.getElementById("gameboard");
+var hitCount = 0;
 
 // you can use this to convert your letters into numbers for use
 // with the 2D array
@@ -67,16 +68,24 @@ function fireTorpedo() {
 
 	  Alpha = ($("#CoordInput").val());
 		console.log(Alpha);
-		Beta = Alpha.substring(1, 2);
-		Delta = Alpha.substring(0,1);
+		Beta = Alpha.substring(0, 1);
+		Delta = Alpha.substring(1,2);
 		console.log(Beta);
 	  console.log(Delta);
 
-		if( 1 == 2){
+		if( gameBoard[letterConversion[Beta]][Delta] == 1){
+
 				//change color to red & increase hit count
+				hitCount += 1;
+				console.log(hitCount);
 		}
 		else{
 				//change color to gray
+		}
+
+		if (hitCount == 17){
+
+ console.log('win');
 		}
 
 }
