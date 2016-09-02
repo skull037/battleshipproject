@@ -19,7 +19,17 @@ var letterConversion = {
 	"G": 6,
 	"H": 7,
 	"I": 8,
-	"J": 9
+	"J": 9,
+	"a": 0,
+	"b": 1,
+	"c": 2,
+	"d": 3,
+	"e": 4,
+	"f": 5,
+	"g": 6,
+	"h": 7,
+	"i": 8,
+	"j": 9
 }
 
 // makes the grid columns and rows
@@ -36,6 +46,7 @@ for (i = 0; i < cols; i++) {
 
 		square.textContent = letterArray[j] + (i + 1);
 
+
 		// set each grid square's coordinates: multiples of the current row or column number
 		var topPosition = j * squareSize;
 		var leftPosition = i * squareSize;
@@ -43,6 +54,7 @@ for (i = 0; i < cols; i++) {
 		// use CSS absolute positioning to place each grid square on the page
 		square.style.top = topPosition + 'px';
 		square.style.left = leftPosition + 'px';
+
 	}
 }
 
@@ -61,31 +73,45 @@ var gameBoard = [
 				]
 
 function fireTorpedo() {
-		var Alpha;
-		var Beta;
-		var Delta;
-		var Gamma;
+		var Coords;
+		var FirstCoord;
+		var SecondCoord;
+		var gameBoardCoords;
+		var squareToChange;
 
-	  Alpha = ($("#CoordInput").val());
-		console.log(Alpha);
-		Beta = Alpha.substring(0, 1);
-		Delta = Alpha.substring(1,2);
-		console.log(Beta);
-	  console.log(Delta);
+	  Coords = ($("#CoordInput").val());
+		console.log(Coords);
+		FirstCoord = Coords.substring(0, 1);
+		SecondCoord = Coords.substring(1,3);
 
-		if( gameBoard[letterConversion[Beta]][Delta] == 1){
+		console.log(FirstCoord);
+	  console.log(SecondCoord);
+		gameBoardCoords = gameBoard[letterConversion[FirstCoord]][SecondCoord];
 
-				//change color to red & increase hit count
-				hitCount += 1;
-				console.log(hitCount);
+		if(gameBoardCoords == 1){
+
+				squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
+
+			  gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
+
+				// change color to red
+				console.log(squareToChange);
+
+			  document.getElementById(squareToChange).style.backgroundColor = 'red';
+
+				//increase hit count
+			  hitCount += 1;
+	  		console.log(hitCount);
 		}
-		else{
-				//change color to gray
+		else if (gameBoardCoords == 0){
+							console.log("miss");
+						squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
+						document.getElementById(squareToChange).style.backgroundColor = 'gray';
 		}
 
 		if (hitCount == 17){
 
- console.log('win');
+    console.log('win');
 		}
 
 }
