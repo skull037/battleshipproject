@@ -60,16 +60,16 @@ for (i = 0; i < cols; i++) {
 
 // Hardcoded 2D array to indicate where the ships are placed
 var gameBoard = [
-				[0,0,0,1,1,1,1,0,0,0],
-				[0,0,0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,1,0,0,0],
-				[0,0,0,0,0,0,1,0,0,0],
-				[1,0,0,0,0,0,1,1,1,1],
-				[1,0,0,0,0,0,0,0,0,0],
-				[1,0,0,1,0,0,0,0,0,0],
-				[1,0,0,1,0,0,0,0,0,0],
-				[1,0,0,0,0,0,0,0,0,0]
+				[0,0,0,0,1,1,1,1,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,1,0,0,0],
+				[0,0,0,0,0,0,0,1,0,0,0],
+				[0,1,0,0,0,0,0,1,1,1,1],
+				[0,1,0,0,0,0,0,0,0,0,0],
+				[0,1,0,0,1,0,0,0,0,0,0],
+				[0,1,0,0,1,0,0,0,0,0,0],
+				[0,1,0,0,0,0,0,0,0,0,0]
 				]
 
 function fireTorpedo() {
@@ -86,6 +86,7 @@ function fireTorpedo() {
 
 		console.log(FirstCoord);
 	  console.log(SecondCoord);
+
 		gameBoardCoords = gameBoard[letterConversion[FirstCoord]][SecondCoord];
 
 		if(gameBoardCoords == 1){
@@ -104,14 +105,22 @@ function fireTorpedo() {
 	  		console.log(hitCount);
 		}
 		else if (gameBoardCoords == 0){
-							console.log("miss");
+						//change color to grey
+
 						squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
-						document.getElementById(squareToChange).style.backgroundColor = 'gray';
+						document.getElementById(squareToChange).style.backgroundColor = 'grey';
+						gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
+		}
+		else if (gameBoardCoords == 2){
+						//alert player that they already hit there
+						$("#Alertbox").text("Already hit");
+
 		}
 
 		if (hitCount == 17){
+			//alert player they won, and to stop blowing up the ocean
+						$("#Alertbox").text("You win");
 
-    console.log('win');
 		}
 
 }
