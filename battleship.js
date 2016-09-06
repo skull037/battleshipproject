@@ -7,6 +7,9 @@ var letterArray = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
 var gameBoardContainer = document.getElementById("gameboard");
 var hitCount = 0;
 
+//hides restart button
+$("#reloadButton").hide();
+
 // you can use this to convert your letters into numbers for use
 // with the 2D array
 var letterConversion = {
@@ -72,6 +75,11 @@ var gameBoard = [
 				[0,1,0,0,0,0,0,0,0,0,0]
 				]
 
+				function reloadGame() {
+
+					location.reload();
+				}
+
 function fireTorpedo() {
 		var Coords;
 		var FirstCoord;
@@ -79,37 +87,46 @@ function fireTorpedo() {
 		var gameBoardCoords;
 		var squareToChange;
 
+// get coords inputed by player then cut them into two different vars
 	  Coords = ($("#CoordInput").val());
-		console.log(Coords);
 		FirstCoord = Coords.substring(0, 1);
 		SecondCoord = Coords.substring(1,3);
-
-		console.log(FirstCoord);
-	  console.log(SecondCoord);
-
+// checks gameboard for inputed vars
 		gameBoardCoords = gameBoard[letterConversion[FirstCoord]][SecondCoord];
 
 		if(gameBoardCoords == 1){
 
 				squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
-
+        //so player cant hit same location again
 			  gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
 
 				// change color to red
-				console.log(squareToChange);
+			  document.getElementById(squareToChange).style.backgroundColor = '#aa0000';
+				//(pointless) crit hits
+				var critHit = Math.random();
+				if(critHit > 0.91){
+					//tell player they crited a ship
+									$("#Alertbox").text("CRITICAL HIT");
+				}
+				else{
+					//tell player they hit a ship
+									$("#Alertbox").text("hit");
+				}
 
-			  document.getElementById(squareToChange).style.backgroundColor = 'red';
 
 				//increase hit count
 			  hitCount += 1;
-	  		console.log(hitCount);
+			  $("#Shipbox").text("Places to hit:" + (17 - hitCount));
 		}
 		else if (gameBoardCoords == 0){
 						//change color to grey
 
 						squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
-						document.getElementById(squareToChange).style.backgroundColor = 'grey';
+						document.getElementById(squareToChange).style.backgroundColor = '#aaaaaa';
+						//player cant miss again
 						gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
+						//tell player they missed, happens sometimes
+						$("#Alertbox").text("miss");
 		}
 		else if (gameBoardCoords == 2){
 						//alert player that they already hit there
@@ -119,8 +136,12 @@ function fireTorpedo() {
 
 		if (hitCount == 17){
 			//alert player they won, and to stop blowing up the ocean
-						$("#Alertbox").text("You win");
-
+						$("#Alertbox").text("You sunk all enemy ships");
+						$("#gameboard").hide();
+						$("#gameboard").hide();
+						$("#fireButton").hide();
+						$("#Shipbox").hide();
+						$("#reloadButton").show();
 		}
 
 }

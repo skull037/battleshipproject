@@ -9,15 +9,24 @@
 
 	<div id="instructionsArea">
 		<h1>Battleship</h1>
-		<p id="instructions">Use the text box to enter your coordinate guess. Try to sink every battleship!</p>
+		<p id="instructions">Use the text box to enter your guess of where the ships are. Try to sink every ship!</p>
     <input type="text" id="CoordInput">
-		<button onclick="fireTorpedo()">Fire</button>
+		<button onclick="fireTorpedo()" id="FireButton">Fire</button>
+	</div>
+	<div id="Shipbox">
+		Places to hit: 17
 	</div>
 <div id="Alertbox">
+	Welcome to battleship: the game
 </div>
+
 
 	<div id="gameboard">
 	</div>
+
+<div  id="reloadButton">
+	<button onclick="reloadGame()">Restart</button>
+</div>
 
 	<script type="text/javascript" src="battleship.js"></script>
 	</body>
