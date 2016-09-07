@@ -6,12 +6,24 @@ var letterArray = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
 // gets the container element
 var gameBoardContainer = document.getElementById("gameboard");
 var hitCount = 0;
+//highscore variables
+var highScoreNumber = 0;
 
+//randomizes grid
+randomizeGrid();
+
+console.log(localStorage.getItem('highScoreNumberStorage'));
+
+var setHighScoreNumber;
+var setHighScoreName;
+
+setHighScoreNumber  = localStorage.getItem('highScoreNumberStorage');
+setHighScoreName = localStorage.getItem('highScoreNameStorage');
 //hides restart button
 $("#reloadButton").hide();
+$("#leaderBoard").hide();
 
-// you can use this to convert your letters into numbers for use
-// with the 2D array
+// you can use this to convert your letters into numbers for use with the 2D array
 var letterConversion = {
 	"A": 0,
 	"B": 1,
@@ -60,9 +72,58 @@ for (i = 0; i < cols; i++) {
 
 	}
 }
+var gameBoard;
+// semirandomized 2D array to indicate where the ships are placed
+function randomizeGrid(){
 
-// Hardcoded 2D array to indicate where the ships are placed
-var gameBoard = [
+	var GridGen = Math.random();
+
+console.log(GridGen);
+	//Possible grid arrangements
+	if (GridGen < 0.25){
+   gameBoard = [
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,1,1,1,1,0,0,0],
+ 				[0,0,0,0,1,1,1,1,1,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,1,1,1],
+ 				[0,0,0,0,1,0,0,0,0,0,0],
+ 				[0,0,0,0,1,0,1,1,1,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0]
+ 			]
+ 		}
+		else if (GridGen > 0.25 && GridGen < 0.5){
+		 gameBoard = [
+					 [0,0,0,0,1,1,1,1,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,1,0,0,0,0,0,1,1,1,1],
+					 [0,1,0,0,0,0,0,1,0,0,0],
+					 [0,1,0,0,1,0,0,1,0,0,0],
+					 [0,1,0,0,1,0,0,0,0,0,0],
+					 [0,1,0,0,0,0,0,0,0,0,0]
+				 ]
+			 }
+			 else if (GridGen > 0.5 && GridGen < 0.75){
+				gameBoard = [
+						 [0,0,0,0,1,1,1,1,0,0,0],
+						 [0,0,0,0,0,0,0,0,0,0,0],
+						 [0,0,0,0,0,0,0,0,0,0,0],
+						 [0,0,0,0,0,0,1,0,0,0,0],
+						 [0,0,0,0,0,0,1,0,0,0,0],
+						 [0,1,0,0,0,0,1,1,1,1,1],
+						 [0,1,0,0,0,0,0,0,0,0,0],
+						 [0,1,0,0,1,0,0,0,0,0,0],
+						 [0,1,0,0,1,0,0,0,0,0,0],
+						 [0,1,0,0,0,0,0,0,0,0,0]
+					 ]
+				 }
+ else if (GridGen > 0.75){
+  gameBoard = [
 				[0,0,0,0,1,1,1,1,0,0,0],
 				[0,0,0,0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0,0,0,0],
@@ -73,7 +134,24 @@ var gameBoard = [
 				[0,1,0,0,1,0,0,0,0,0,0],
 				[0,1,0,0,1,0,0,0,0,0,0],
 				[0,1,0,0,0,0,0,0,0,0,0]
-				]
+			]
+		}
+		else {
+		 gameBoard = [
+					 [0,0,0,0,1,1,1,1,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,1,0,0,0],
+					 [0,0,0,0,0,0,0,1,0,0,0],
+					 [0,1,0,0,0,0,0,1,1,1,1],
+					 [0,1,0,0,0,0,0,0,0,0,0],
+					 [0,1,0,0,1,0,0,0,0,0,0],
+					 [0,1,0,0,1,0,0,0,0,0,0],
+					 [0,1,0,0,0,0,0,0,0,0,0]
+				 ]
+			 }
+			 console.log(gameBoard);
+		 }
 
 				function reloadGame() {
 
@@ -81,6 +159,7 @@ var gameBoard = [
 				}
 
 function fireTorpedo() {
+	highScoreNumber++;
 		var Coords;
 		var FirstCoord;
 		var SecondCoord;
@@ -137,11 +216,35 @@ function fireTorpedo() {
 		if (hitCount == 17){
 			//alert player they won, and to stop blowing up the ocean
 						$("#Alertbox").text("You sunk all enemy ships");
+						//change screen to win state
 						$("#gameboard").hide();
 						$("#gameboard").hide();
-						$("#fireButton").hide();
+						$("#FireButton").hide();
 						$("#Shipbox").hide();
+						$("#CoordInput").hide();
 						$("#reloadButton").show();
+						$("#leaderBoard").show();
+						//get name for high score & display high score
+            highScoreSetter();
+		}
+
+		function highScoreSetter(){
+			setHighScoreNumber = localStorage.getItem('highScoreNumberStorage');
+			if(setHighScoreNumber > highScoreNumber){
+
+			var highScoreName = prompt("Please enter your name", "");
+
+			$("#topScore").text(highScoreName + " " + highScoreNumber);
+
+			localStorage.setItem('highScoreNameStorage', highScoreName);
+			localStorage.setItem('highScoreNumberStorage', highScoreNumber);
+		}
+
+			else
+			{
+				$("#topScore").text(setHighScoreName + " : " + setHighScoreNumber);
+			}
+
 		}
 
 }
