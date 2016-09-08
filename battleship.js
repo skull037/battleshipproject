@@ -16,9 +16,11 @@ console.log(localStorage.getItem('highScoreNumberStorage'));
 
 var setHighScoreNumber;
 var setHighScoreName;
+var setGridGen;
 
 setHighScoreNumber  = localStorage.getItem('highScoreNumberStorage');
 setHighScoreName = localStorage.getItem('highScoreNameStorage');
+setHighScoreBoard = localStorage.getItem('highScoreBoardrStorage');
 //hides restart button
 $("#reloadButton").hide();
 $("#leaderBoard").hide();
@@ -73,14 +75,15 @@ for (i = 0; i < cols; i++) {
 	}
 }
 var gameBoard;
+var GridGen
 // semirandomized 2D array to indicate where the ships are placed
 function randomizeGrid(){
 
-	var GridGen = Math.random();
+	GridGen = Math.floor((Math.random() * 100) + 1);
 
-console.log(GridGen);
+console.log("board " + GridGen);
 	//Possible grid arrangements
-	if (GridGen < 0.25){
+	if (GridGen < 25){
    gameBoard = [
  				[0,0,0,0,0,0,0,0,0,0,0],
  				[0,0,0,0,1,1,1,1,0,0,0],
@@ -88,52 +91,52 @@ console.log(GridGen);
  				[0,0,0,0,0,0,0,0,0,0,0],
  				[0,0,0,0,0,0,0,0,0,0,0],
  				[0,0,0,0,0,0,0,0,1,1,1],
- 				[0,0,0,0,1,0,0,0,0,0,0],
- 				[0,0,0,0,1,0,1,1,1,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,1,1,1,1,1,0,0],
  				[0,0,0,0,0,0,0,0,0,0,0],
  				[0,0,0,0,0,0,0,0,0,0,0]
  			]
  		}
-		else if (GridGen > 0.25 && GridGen < 0.5){
+		else if (GridGen > 25 && GridGen < 50){
 		 gameBoard = [
+					 [0,0,0,1,1,1,1,1,0,0,0],
+					 [0,0,0,0,0,0,0,0,0,0,0],
 					 [0,0,0,0,1,1,1,1,0,0,0],
 					 [0,0,0,0,0,0,0,0,0,0,0],
 					 [0,0,0,0,0,0,0,0,0,0,0],
+					 [0,0,0,0,0,0,0,1,1,1,1],
+					 [0,0,0,0,0,0,0,1,0,0,0],
+					 [0,0,0,0,1,1,0,1,0,0,0],
 					 [0,0,0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0,0,0],
-					 [0,1,0,0,0,0,0,1,1,1,1],
-					 [0,1,0,0,0,0,0,1,0,0,0],
-					 [0,1,0,0,1,0,0,1,0,0,0],
-					 [0,1,0,0,1,0,0,0,0,0,0],
-					 [0,1,0,0,0,0,0,0,0,0,0]
+					 [0,0,0,0,0,0,0,0,0,0,0]
 				 ]
 			 }
-			 else if (GridGen > 0.5 && GridGen < 0.75){
+			 else if (GridGen > 50 && GridGen < 75){
 				gameBoard = [
 						 [0,0,0,0,1,1,1,1,0,0,0],
 						 [0,0,0,0,0,0,0,0,0,0,0],
 						 [0,0,0,0,0,0,0,0,0,0,0],
 						 [0,0,0,0,0,0,1,0,0,0,0],
 						 [0,0,0,0,0,0,1,0,0,0,0],
-						 [0,1,0,0,0,0,1,1,1,1,1],
+						 [0,1,0,0,0,0,1,1,0,0,0],
+						 [0,1,0,0,0,0,0,1,0,0,0],
+						 [0,1,0,0,0,0,0,1,0,0,0],
 						 [0,1,0,0,0,0,0,0,0,0,0],
-						 [0,1,0,0,1,0,0,0,0,0,0],
-						 [0,1,0,0,1,0,0,0,0,0,0],
-						 [0,1,0,0,0,0,0,0,0,0,0]
+						 [0,1,0,1,1,0,0,0,0,0,0]
 					 ]
 				 }
- else if (GridGen > 0.75){
+ else if (GridGen > 75 && GridGen != 100){
   gameBoard = [
-				[0,0,0,0,1,1,1,1,0,0,0],
+				[0,0,0,0,1,1,0,0,0,0,0],
+				[0,0,0,0,1,1,0,0,0,0,0],
+				[0,0,0,0,1,1,0,0,0,0,0],
+				[0,0,0,0,1,1,0,0,0,0,0],
+				[0,0,0,0,1,1,0,0,0,0,0],
+				[0,0,0,0,1,1,1,1,1,1,1],
 				[0,0,0,0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,1,0,0,0],
-				[0,0,0,0,0,0,0,1,0,0,0],
-				[0,1,0,0,0,0,0,1,1,1,1],
-				[0,1,0,0,0,0,0,0,0,0,0],
-				[0,1,0,0,1,0,0,0,0,0,0],
-				[0,1,0,0,1,0,0,0,0,0,0],
-				[0,1,0,0,0,0,0,0,0,0,0]
+				[0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0]
 			]
 		}
 		else {
@@ -145,12 +148,12 @@ console.log(GridGen);
 					 [0,0,0,0,0,0,0,1,0,0,0],
 					 [0,1,0,0,0,0,0,1,1,1,1],
 					 [0,1,0,0,0,0,0,0,0,0,0],
-					 [0,1,0,0,1,0,0,0,0,0,0],
-					 [0,1,0,0,1,0,0,0,0,0,0],
+					 [0,1,0,0,0,1,0,0,0,0,0],
+					 [0,1,0,0,0,1,0,0,0,0,0],
 					 [0,1,0,0,0,0,0,0,0,0,0]
 				 ]
 			 }
-			 console.log(gameBoard);
+
 		 }
 
 				function reloadGame() {
@@ -172,6 +175,8 @@ function fireTorpedo() {
 		SecondCoord = Coords.substring(1,3);
 // checks gameboard for inputed vars
 		gameBoardCoords = gameBoard[letterConversion[FirstCoord]][SecondCoord];
+
+		$("#CoordInput").val("");
 
 		if(gameBoardCoords == 1){
 
@@ -201,7 +206,7 @@ function fireTorpedo() {
 						//change color to grey
 
 						squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
-						document.getElementById(squareToChange).style.backgroundColor = '#aaaaaa';
+						document.getElementById(squareToChange).style.backgroundColor = "#f6f8f9";
 						//player cant miss again
 						gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
 						//tell player they missed, happens sometimes
@@ -227,7 +232,6 @@ function fireTorpedo() {
 						//get name for high score & display high score
             highScoreSetter();
 		}
-
 		function highScoreSetter(){
 			setHighScoreNumber = localStorage.getItem('highScoreNumberStorage');
 			if(setHighScoreNumber > highScoreNumber){
@@ -238,13 +242,11 @@ function fireTorpedo() {
 
 			localStorage.setItem('highScoreNameStorage', highScoreName);
 			localStorage.setItem('highScoreNumberStorage', highScoreNumber);
+			localStorage.setItem('highScoreBoardrStorage', GridGen);
 		}
-
 			else
 			{
-				$("#topScore").text(setHighScoreName + " : " + setHighScoreNumber);
+				$("#topScore").text(setHighScoreName + " : " + setHighScoreNumber + "board: " + setGridGen);
 			}
-
 		}
-
 }
