@@ -12,8 +12,6 @@ var highScoreNumber = 0;
 //randomizes grid
 randomizeGrid();
 
-console.log(localStorage.getItem('highScoreNumberStorage'));
-
 var setHighScoreNumber;
 var setHighScoreName;
 var setGridGen;
@@ -63,7 +61,6 @@ for (i = 0; i < cols; i++) {
 
 		square.textContent = letterArray[j] + (i + 1);
 
-
 		// set each grid square's coordinates: multiples of the current row or column number
 		var topPosition = j * squareSize;
 		var leftPosition = i * squareSize;
@@ -75,12 +72,23 @@ for (i = 0; i < cols; i++) {
 	}
 }
 var gameBoard;
+var playerGameBoard = [
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,1,1,1,1,0,0,0],
+ 				[0,0,0,0,1,1,1,1,1,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,1,1,1],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,1,1,1,1,1,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0],
+ 				[0,0,0,0,0,0,0,0,0,0,0]
+ 			]
 var GridGen
 // semirandomized 2D array to indicate where the ships are placed
 function randomizeGrid(){
 
 	GridGen = Math.floor((Math.random() * 100) + 1);
-
 console.log("board " + GridGen);
 	//Possible grid arrangements
 	if (GridGen < 25){
@@ -97,7 +105,7 @@ console.log("board " + GridGen);
  				[0,0,0,0,0,0,0,0,0,0,0]
  			]
  		}
-		else if (GridGen > 25 && GridGen < 50){
+		else if (GridGen > 25 && GridGen < 49){
 		 gameBoard = [
 					 [0,0,0,1,1,1,1,1,0,0,0],
 					 [0,0,0,0,0,0,0,0,0,0,0],
@@ -111,9 +119,9 @@ console.log("board " + GridGen);
 					 [0,0,0,0,0,0,0,0,0,0,0]
 				 ]
 			 }
-			 else if (GridGen > 50 && GridGen < 75){
+			 else if (GridGen > 49 && GridGen < 75){
 				gameBoard = [
-						 [0,0,0,0,1,1,1,1,0,0,0],
+						 [0,1,1,1,1,0,0,0,0,0,0],
 						 [0,0,0,0,0,0,0,0,0,0,0],
 						 [0,0,0,0,0,0,0,0,0,0,0],
 						 [0,0,0,0,0,0,1,0,0,0,0],
@@ -153,16 +161,13 @@ console.log("board " + GridGen);
 					 [0,1,0,0,0,0,0,0,0,0,0]
 				 ]
 			 }
-
 		 }
-
 				function reloadGame() {
 
 					location.reload();
 				}
 
 function fireTorpedo() {
-	highScoreNumber++;
 		var Coords;
 		var FirstCoord;
 		var SecondCoord;
@@ -177,7 +182,6 @@ function fireTorpedo() {
 		gameBoardCoords = gameBoard[letterConversion[FirstCoord]][SecondCoord];
 
 		$("#CoordInput").val("");
-
 		if(gameBoardCoords == 1){
 
 				squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
@@ -186,18 +190,17 @@ function fireTorpedo() {
 
 				// change color to red
 			  document.getElementById(squareToChange).style.backgroundColor = '#aa0000';
+				highScoreNumber++;
 				//(pointless) crit hits
 				var critHit = Math.random();
 				if(critHit > 0.91){
 					//tell player they crited a ship
 									$("#Alertbox").text("CRITICAL HIT");
 				}
-				else{
+				else {
 					//tell player they hit a ship
 									$("#Alertbox").text("hit");
 				}
-
-
 				//increase hit count
 			  hitCount += 1;
 			  $("#Shipbox").text("Places to hit:" + (17 - hitCount));
@@ -207,6 +210,7 @@ function fireTorpedo() {
 
 						squareToChange = 's' + letterConversion[FirstCoord] + (SecondCoord - 1);
 						document.getElementById(squareToChange).style.backgroundColor = "#f6f8f9";
+						highScoreNumber++;
 						//player cant miss again
 						gameBoard[letterConversion[FirstCoord]][SecondCoord] = 2;
 						//tell player they missed, happens sometimes
@@ -215,9 +219,7 @@ function fireTorpedo() {
 		else if (gameBoardCoords == 2){
 						//alert player that they already hit there
 						$("#Alertbox").text("Already hit");
-
 		}
-
 		if (hitCount == 17){
 			//alert player they won, and to stop blowing up the ocean
 						$("#Alertbox").text("You sunk all enemy ships");
@@ -227,6 +229,7 @@ function fireTorpedo() {
 						$("#FireButton").hide();
 						$("#Shipbox").hide();
 						$("#CoordInput").hide();
+						$("#instructions").hide();
 						$("#reloadButton").show();
 						$("#leaderBoard").show();
 						//get name for high score & display high score
@@ -246,7 +249,7 @@ function fireTorpedo() {
 		}
 			else
 			{
-				$("#topScore").text(setHighScoreName + " : " + setHighScoreNumber + "board: " + setGridGen);
+				$("#topScore").text(setHighScoreName + " : " + setHighScoreNumber);
 			}
 		}
 }
